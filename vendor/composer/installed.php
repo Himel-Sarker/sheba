@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '1fe1182bfd22af80ab98fc7e7ef54de6ffaf8f69',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '62683b815befa816bfe1933de699510b06c70f94',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -401,9 +401,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '1fe1182bfd22af80ab98fc7e7ef54de6ffaf8f69',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '62683b815befa816bfe1933de699510b06c70f94',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1014,9 +1014,9 @@
             'dev_requirement' => true,
         ),
         'spatie/flare-client-php' => array(
-            'pretty_version' => '1.2.0',
-            'version' => '1.2.0.0',
-            'reference' => '86a380f5b1ce839af04a08f1c8f2697184cdf23f',
+            'pretty_version' => '1.3.0',
+            'version' => '1.3.0.0',
+            'reference' => 'b1b974348750925b717fa8c8b97a0db0d1aa40ca',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/flare-client-php',
             'aliases' => array(),
