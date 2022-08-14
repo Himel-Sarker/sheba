@@ -38,7 +38,7 @@ class FrontendController extends Controller
 
    public function index(){
 
-    $doctors=User::where('role_id',1)->latest()->take(4)->get();
+    $doctors=User::where('role_id',2)->latest()->take(4)->get();
 
     $departments=Department::all();
     $test_department=Test::all();
@@ -47,7 +47,7 @@ class FrontendController extends Controller
    }
    public function view(){
 
-      $doctorslist= User::where('role_id',1)->paginate(12);
+      $doctorslist= User::where('role_id',2)->paginate(12);
 
       return view('doctors',compact('doctorslist'));
    }
@@ -63,13 +63,13 @@ class FrontendController extends Controller
       $doctor_name=$request->doctor_name;
       $speciality=$request->speciality;
       if(isset($speciality)){
-          $doctor=User::where('role_id',3)->where('department_id',$speciality)->get();
+          $doctor=User::where('role_id',2)->where('department_id',$speciality)->get();
       }
       if(isset($speciality)&& $speciality=='all'){
-         $doctor=User::where('role_id',3)->get();
+         $doctor=User::where('role_id',2)->get();
      }
       if(isset($doctor_name)){
-         $doctor=User::where('role_id',3)->where('first_name','like',"%{$doctor_name}%")->orwhere('last_name','like',"%{$doctor_name}%")->get();
+         $doctor=User::where('role_id',2)->where('first_name','like',"%{$doctor_name}%")->orwhere('last_name','like',"%{$doctor_name}%")->get();
       }
 
    

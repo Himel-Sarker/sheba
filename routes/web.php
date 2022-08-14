@@ -33,9 +33,11 @@ Route::post('/our-pricelist/filter_by',[FrontendController::class,'filter'])->na
 Route::get('/single-doctor/{id}', [FrontendController::class, 'singleDoctor'])->name('view_doctor');
 Route::get('/apoint/doctor', [FrontendController::class, 'makeAppoint'])->name('make_appoint');
 
-Route::get('/dashboard', function () {
-    return redirect()->route('admin.dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return redirect()->route('admin.dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
+Route::get('/dashboard',[HomeController::class,'index'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -77,3 +79,4 @@ Route::prefix('/admin')->middleware(['auth'])->group(function(){
     });
 
 });
+

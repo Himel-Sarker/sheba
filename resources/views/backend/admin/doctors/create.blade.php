@@ -43,7 +43,7 @@
             </div>
         @endif
         <div class="row" style="margin-top:10px; margin-bottom: 10px;">
-            <div class="col">
+            <!-- <div class="col">
                 <label for="">Rols: </label>
                 <select name="role_id" class="form-select" aria-label="Default select example">
                     <option selected>Select Rols</option>
@@ -51,17 +51,12 @@
                         <option value="{{$value->id}}">{{$value->role_name}}</option>
                     @endforeach
                 </select>
-            </div>
-            <div class="col">
-                <label for="">Department: </label>
-                <select name="department_id" class="form-select" aria-label="Default select example">
-                    <option selected>Select department</option>
-                    @foreach($departments as $department)
-                        <option value="{{$department->id}}">{{$department->name}}</option>
-                    @endforeach
-                </select>
-            </div>
+            </div> -->
+            
         </div>
+
+
+        
         <div class="row" style="margin-top:10px; margin-bottom: 10px;" >
             <div class="col">
                 <label>First Name: *</label>
@@ -92,6 +87,16 @@
                 <input name="phone" type="number" class="form-control" placeholder="(+880)" aria-label="Last name">
             </div>
         </div>
+
+        <div class="col">
+                <label for="">Department: </label>
+                <select name="department_id" class="form-select" aria-label="Default select example">
+                    <option selected>Select department</option>
+                    @foreach($departments as $department)
+                        <option value="{{$department->id}}">{{$department->name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
         <div class="row" style="margin-bottom: 10px;">
             <div class="col">

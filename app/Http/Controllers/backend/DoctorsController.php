@@ -48,7 +48,7 @@ class DoctorsController extends Controller
             'last_name'=>'required',
             'email'=>'required',
             'password'=>'required',
-            'role_id'=>'required|integer',
+            
             'department_id'=>'required|integer'
 
         ]);
@@ -60,7 +60,7 @@ class DoctorsController extends Controller
                 'last_name'=>$request->last_name,
                 'email'=>$request->email,
                 'password'=>Hash::make($request->password),
-                'role_id'=>$request->role_id,
+                'role_id'=>2,
                 'department_id'=>$request->department_id,
             ]);
 

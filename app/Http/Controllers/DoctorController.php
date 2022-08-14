@@ -140,7 +140,7 @@ class DoctorController extends Controller
     public function index()
     {
 
-        $doctors= User::where('role_id',1)->get();
+        $doctors= User::where('role_id',2)->get();
 
         return view('backend.admin.doctors.index',compact('doctors'));
 
@@ -169,7 +169,7 @@ class DoctorController extends Controller
             'last_name'=>'required',
             'email'=>'required',
             'password'=>'required',
-            'role_id'=>'required|integer',
+            //'role_id'=>'required|integer',
             'department_id'=>'required|integer',
             'image' => 'required'
         ]);
@@ -200,7 +200,7 @@ class DoctorController extends Controller
                 'last_name'=>$request->last_name,
                 'email'=>$request->email,
                 'password'=>Hash::make($request->password),
-                'role_id'=>$request->role_id,
+                'role_id'=>2,
                 'department_id'=>$request->department_id,
             ]);
 
