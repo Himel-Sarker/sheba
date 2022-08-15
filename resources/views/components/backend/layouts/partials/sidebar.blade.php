@@ -1,7 +1,7 @@
 <div id="sidebar" class='active '>
     <div class="sidebar-wrapper active mt-0">
         <div class="sidebar-header ">
-            <a href="{{ route('homepage') }}">
+            <a href="{{ url('/') }}">
                 <img src="{{asset('image/logo.jpg')}}" width="200px" alt="">
             </a>
         </div>
@@ -39,7 +39,12 @@
                             Doctors List</a>
                         </li>
 
-                       
+                        <li>
+                            <a href="{{route('doctors.create')}}">
+                            <i data-feather="plus-square" width="15"></i>
+                                Add Doctor
+                            </a>
+                        </li>
 
 
 
@@ -86,7 +91,12 @@
                             </a>
                         </li>
 
-                      
+                        <li>
+                            <a href="{{route('departments.create')}}">
+                            <i data-feather="plus-square" width="15"></i>
+                                Add New Department</a>
+                        </li>
+
                     </ul>
 
                 </li>
@@ -107,7 +117,16 @@
                             </a>
                         </li>
 
-                    
+                        <li>
+                            <a href="{{route('test.create')}}">
+                            <i data-feather="plus-square" width="15"></i>
+                                Add Test Department
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="form-element-select.html">Select</a>
+                        </li>
 
 
 
