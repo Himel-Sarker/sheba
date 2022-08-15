@@ -28,30 +28,28 @@
   
     <!-- <li id="heart-trigger" class="heart heart-trigger"><span class="fa fa-heart"></span></li> -->
 
+    @guest
     <a class="appointment-btn scrollto" type="button"    href="{{ route ('register') }} ">Register</a>
     
+    <a class="appointment-btn scrollto" type="button"    href="{{ route ('login') }} ">Login</a>
 
     <nav id="navbar" class="navbar sticky-top order-last order-lg-0">
 
 
-      <div class="dropdown">
+    
 
 
-        <button class="appointment-btn scrollto dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-          Login
-        </button>
-       
         
+       
+        @else
 
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <li><a class="dropdown-item" href="{{ route ('login') }}">Admin</a></li>
-          <li><a class="dropdown-item" href="{{ route ('login') }}">Doctor</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" href="{{ route ('login') }}">Patient</a></li>
-        </ul>
-      </div>
+        <a href="{{route('dashboard')}}" class="appointment-btn scrollto "   aria-expanded="false">
+          Dashboard
+        </a>
+        @endguest
+
+        
+      
 
 
       &nbsp;&nbsp;&nbsp;

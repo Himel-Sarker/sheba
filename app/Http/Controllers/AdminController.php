@@ -7,9 +7,13 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class AdminController extends Controller
 {
  public function index(){
+
+   
 
     $appointmentlist=Appointment::all();
     $date=Carbon::today()->toDateString();

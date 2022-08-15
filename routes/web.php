@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\backend\DoctorsController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[FrontendController::class,'index'])->name('homepage');
+Route::get('/home',[FrontendController::class,'index'])->name('homepage');
 Route::post('/appointment', [FrontendController::class, 'store'])->name('ap.store');
 Route::get('/our-doctors',[FrontendController::class,'view'])->name('doctors');
 Route::get('/find-doctors',[FrontendController::class,'find'])->name('doctors.find');
@@ -33,18 +34,25 @@ Route::post('/our-pricelist/filter_by',[FrontendController::class,'filter'])->na
 Route::get('/single-doctor/{id}', [FrontendController::class, 'singleDoctor'])->name('view_doctor');
 Route::get('/apoint/doctor', [FrontendController::class, 'makeAppoint'])->name('make_appoint');
 
-// Route::get('/dashboard', function () {
-//     return redirect()->route('admin.dashboard');
-// })->middleware(['auth'])->name('dashboard');
 
-Route::get('/dashboard',[HomeController::class,'index'])->middleware(['auth'])->name('dashboard');
+
+
+
+
+
+
+
+
 
 require __DIR__.'/auth.php';
+
+Route::get('/',[HomeController::class,'index'])->middleware(['auth'])->name('dashboard');
+
+
 
 Route::prefix('/admin')->middleware(['auth'])->group(function(){
 
     Route::get('/',[AdminController::class,'index'])->name('admin.dashboard');
-
     Route::get('/doctors', [DoctorController::class,'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class,'create'])->name('doctors.create');
 
@@ -72,11 +80,25 @@ Route::prefix('/admin')->middleware(['auth'])->group(function(){
 
 
 
-//    New Route List
+
 
     Route::group(['as'=>'admin.'],function (){
         Route::resource('/doctor',DoctorsController::class);
     });
+
+});
+
+
+Route::prefix('/doctor')->middleware(['auth'])->group(function(){
+
+    Route::get('/',[DoctorController::class,'index'])->name('doctor.dashboard');
+
+});
+
+
+Route::prefix('/patient')->middleware(['auth'])->group(function(){
+
+    Route::get('/',[PatientController::class,'index'])->name('patient.dashboard');
 
 });
 

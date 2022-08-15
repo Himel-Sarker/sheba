@@ -45,6 +45,9 @@ class FrontendController extends Controller
 
     return view('welcome',compact('doctors','departments','test_department'));
    }
+
+
+   
    public function view(){
 
       $doctorslist= User::where('role_id',2)->paginate(12);

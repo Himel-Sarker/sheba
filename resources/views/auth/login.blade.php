@@ -41,17 +41,28 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+            <div class="row">
+                <div class="col-2">
+                <a class="btn ntn-primary m-5 text-sm text-gray-600 hover:text-gray-900" href="{{ route('homepage') }}">
+                            {{ __('Back To Home') }}
+                        </a>
+                </div>
+                <div class="col-10">
+                <div class="flex items-center justify-item-end  mt-4">
+                    @if (Route::has('password.request'))
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+                    @endif
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
+                    <x-button class="ml-3">
+                        {{ __('Log in') }}
+                    </x-button>
             </div>
+                </div>
+            </div>
+
+            
         </form>
     </x-auth-card>
 </x-guest-layout>

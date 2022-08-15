@@ -31,7 +31,7 @@
 
         <!-- sidebar -->
         <x-backend.layouts.partials.sidebar>
-
+            
         </x-backend.layouts.partials.sidebar>
         <!--end sidebar-->
         <div id="main">
@@ -108,7 +108,11 @@
                 </div>
             </nav>
 
-            <div class="main-content container-fluid">]
+
+            <div class="main-content container-fluid">
+
+            <!-- <h1> Doctor Dashboard</h1> -->
+
                 <!-- main  -->
                 {{$slot}}
                 <!-- End Main -->
