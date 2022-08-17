@@ -13,28 +13,53 @@ use PDOException;
 
 class FrontendController extends Controller
 {
-   public function store(Request $request){
-      $data=$request->all();
-      try {
 
-        Appointment::create([
-           'patients_name'=>$data['name'],
-           'phone'=>$data['phone'],
-           'email'=>$data['email'],
-           'appointment_date'=>$data['date'],
-           'doctor_id'=>$data['doctor'],
-           'status'=>'pending',
-           'message'=>$data['message']
 
-        ]);
-          
-      } catch (PDOException $ex) {
-          echo($ex);
-      }
+//    public function store(Request $request){
+     
 
-      return redirect()->route('homepage')->withMessage('Thanks for your appointments. Please wait for the conformation.We will notify you!');
+//     $this->validate($request,[
+//         'name'=>'required|string',
+//          'phone'=>'required',
+//          'email'=>'required|email',
+//          'details'=>'required',
+//          'doctor_id' => 'required|integer'
+//      ]);
 
-   }
+
+//      $date = [];
+
+//      if(count($request->date) >= 1){
+//          foreach ($request->date as $key => $value){
+//              $data['day'] = $key;
+//              $data['time'] = $value;
+//          }
+//      }else{
+//          return back()->with('message', 'Something want wrong. please check again');
+//      }
+
+// //       name	phone	email	details	day	time	doctor_id	status	message	created_at
+
+//      Appointment::create([
+//          'name' => $request->name,
+//          'phone' => $request->phone,
+//          'email' => $request->email,
+//          'details' => $request->details,
+//          'doctor_id' => $request->doctor_id,
+//          'day' => $data['day'] ?? "",
+//          'time' => $data['time'] ?? "",
+//      ]);
+
+//      return back()->with('message', 'Thanks for your appointments. Please wait for the conformation.We will notify you!');
+
+
+//     //   return redirect()->route('homepage')->withMessage('Thanks for your appointments. Please wait for the conformation.We will notify you!');
+
+//    }
+
+
+
+
 
    public function index(){
 

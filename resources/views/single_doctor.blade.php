@@ -12,7 +12,7 @@
 
 
                         @if(Session::has('message'))
-                            <p class="alert alert-info">{{ Session::get('message') }}</p>
+                        <p class="alert alert-info">{{ Session::get('message') }}</p>
                         @endif
                         <!--        	<ul class="list-inline breadcumb-nav">-->
                         <!--            <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>-->
@@ -93,6 +93,7 @@
     </section>
     <section class="section doctor-qualification gray-bg">
         <div class="container">
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="section-title">
@@ -102,7 +103,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="section-title">
-                        <h3>Make An Appoint</h3>
+                        <h3>Make An Appointment</h3>
                         <div class="divider my-4"></div>
                     </div>
                 </div>
@@ -118,20 +119,20 @@
 
 
                             <div class="form-group">
-                                <input type="hidden" name="doctor_id" value="{{ $doctor->id }}"/>
+                                <input type="hidden" name="doctor_id" value="{{ $doctor->id }}" />
                                 <input type="text" name="name" class="form-control mb-2 @error('name') is-invalid @enderror" placeholder="Enter Your Full Name">
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror mb-2"  placeholder="Enter Your Phone Number">
+                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror mb-2" placeholder="Enter Your Phone Number">
                             </div>
 
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror  mb-2"  placeholder="Enter Your Email">
+                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror  mb-2" placeholder="Enter Your Email">
                             </div>
 
                             <div class="form-group">
-                                <textarea  name="details" class="form-control @error('details') is-invalid @enderror mb-2"  placeholder="Describe Your Problem" rows="5"></textarea>
+                                <textarea name="details" class="form-control @error('details') is-invalid @enderror mb-2" placeholder="Describe Your Problem" rows="5"></textarea>
                             </div>
 
 
@@ -142,17 +143,17 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <label for="{{ $key.'radio' }}" class="btn d-block btn-secondary rounded-0" style="min-width: 250px">
-                                                    <input name="date" value="{{ $key }}" id="{{ $key.'radio' }}" type="radio"/>
+                                                    <input name="date" value="{{ $key }}" id="{{ $key.'radio' }}" type="radio" />
                                                     {{ $key }}
                                                 </label>
                                             </div>
-{{--                                            {{ json_decode($value->times[0]) }}--}}
+                                            {{--{{ json_decode($value->times[0]) }}--}}
 
 
                                             <select class="btn btn-outline-dark rounded-0 form-control select{{ $key }}" id="{{ $key }}" disabled name="date[{{ $key }}]time">
                                                 <option selected disabled>Select Appoint Time</option>
-                                                @foreach(json_decode($value->times[0]) as  $val)
-                                                    <option value="{{ $val->value }}">{{ $val->value }}</option>
+                                                @foreach(json_decode($value->times[0]) as $val)
+                                                <option value="{{ $val->value }}">{{ $val->value }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -165,9 +166,9 @@
                     </div>
 
                 </div>
-                <button id="submitButton" class="btn btn-main-2 btn-round-full mt-3 bg-info py-3 text-white" >Make an Appoinment<i class="icofont-simple-right ml-2  "></i></button>
-
+                <button id="submitButton" class="btn btn-main-2 btn-round-full mt-3 bg-info py-3 text-white">Make an Appoinment<i class="icofont-simple-right ml-2  "></i></button>
             </div>
+
         </div>
     </section>
 
@@ -175,7 +176,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <script>
-        document.querySelector("#submitButton").addEventListener('click', function(){
+        document.querySelector("#submitButton").addEventListener('click', function() {
 
             document.querySelector("#main_apoind_form").submit()
         })
@@ -185,14 +186,14 @@
 
             let val = $(this).val()
 
-            let id  = "select"+val
+            let id = "select" + val
 
             var inputs = document.getElementsByTagName("select");
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].id === val){
-                    $("."+id).removeAttr('disabled');
-                }else{
-                    $("#"+inputs[i].id).attr('disabled',true);
+                if (inputs[i].id === val) {
+                    $("." + id).removeAttr('disabled');
+                } else {
+                    $("#" + inputs[i].id).attr('disabled', true);
                 }
             }
 
@@ -207,7 +208,6 @@
             // } else
             //     $('#discountselection').removeAttr('disabled');
         });
-
     </script>
 
 </x-frontend.layouts.master>

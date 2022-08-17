@@ -25,13 +25,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/home',[FrontendController::class,'index'])->name('homepage');
-Route::post('/appointment', [FrontendController::class, 'store'])->name('ap.store');
+
+// Route::post('/appointment', [FrontendController::class, 'store'])->name('ap.store');
+
 Route::get('/our-doctors',[FrontendController::class,'view'])->name('doctors');
 Route::get('/find-doctors',[FrontendController::class,'find'])->name('doctors.find');
 Route::post('/find-doctors',[FrontendController::class,'finddoc'])->name('doctors.findby');
 Route::get('/our-pricelist',[FrontendController::class,'pricelist'])->name('pricelist');
 Route::post('/our-pricelist/filter_by',[FrontendController::class,'filter'])->name('pricelist.filter');
 Route::get('/single-doctor/{id}', [FrontendController::class, 'singleDoctor'])->name('view_doctor');
+
 Route::get('/apoint/doctor', [FrontendController::class, 'makeAppoint'])->name('make_appoint');
 
 
