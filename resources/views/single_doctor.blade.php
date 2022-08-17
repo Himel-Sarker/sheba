@@ -8,7 +8,7 @@
                 <div class="col-md-12">
                     <div class="block text-center">
                         <span class="text-white">Doctor Personal Details Details</span>
-                        <h1 class="text-capitalize mb-5 text-lg">Alexandar james</h1>
+                        <h1 class="text-capitalize mb-5 text-lg">{{$doctor->first_name.' '.$doctor->last_name}}</h1>
 
 
                         @if(Session::has('message'))
@@ -34,8 +34,8 @@
                         <img src="{{asset($doctor->profile->image ?? '/image/avatar.jpg')}}" alt="" class="img-fluid w-100">
 
                         <div class="info-block mt-4">
-                            <h4 class="mb-0">Alexandar james</h4>
-                            <p>Orthopedic Surgary</p>
+                            <h4 class="mb-0">{{$doctor->first_name.' '.$doctor->last_name}}</h4>
+                            <p>Specialities: {{$doctor->department->name}}</p>
 
                             <ul class="list-inline mt-4 doctor-social-links">
                                 <li class="list-inline-item"><a href="#"><i class="icofont-facebook"></i></a></li>
@@ -57,31 +57,31 @@
                                 <table class="table table-striped">
                                     <tr>
                                         <th>User Name : </th>
-                                        <td>username89</td>
+                                        <td>{{$doctor->first_name.' '.$doctor->last_name}}</td>
                                     </tr>
                                     <tr>
                                         <th>Email : </th>
-                                        <td>doctor@mail.com</td>
+                                        <td>{{$doctor->email}}</td>
                                     </tr>
                                     <tr>
                                         <th>Phone : </th>
-                                        <td>+91 235 125 1547 </td>
+                                        <td>{{ optional($doctor->profile)->phone}} </td>
                                     </tr>
                                     <tr>
                                         <th>Date Of Birth : </th>
-                                        <td>26 jan 190</td>
+                                        <td>{{ optional($doctor->profile)->dob}}</td>
                                     </tr>
                                     <tr>
                                         <th>Joined At : </th>
-                                        <td>7 jun 2000</td>
+                                        <td>{{ optional($doctor->profile)->join_date}}</td>
                                     </tr>
                                     <tr>
                                         <th>City : </th>
-                                        <td>UK London , Strate</td>
+                                        <td>{{ optional($doctor->profile)->city}}</td>
                                     </tr>
                                     <tr>
                                         <th>Address : </th>
-                                        <td>United Strate 75/A US 6/225</td>
+                                        <td>{{ optional($doctor->profile)->address}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="edu-block">
-                        <form action="{{ route("make_appoint") }}" id="main_apoind_form">
+                        <form action="{{ route('make_appoint') }}" id="main_apoind_form">
                             @csrf
 
 
@@ -141,8 +141,8 @@
                                     <td>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
-                                                <label for="{{ $key."radio" }}" class="btn d-block btn-secondary rounded-0" style="min-width: 250px">
-                                                    <input name="date" value="{{ $key }}" id="{{ $key."radio" }}" type="radio"/>
+                                                <label for="{{ $key.'radio' }}" class="btn d-block btn-secondary rounded-0" style="min-width: 250px">
+                                                    <input name="date" value="{{ $key }}" id="{{ $key.'radio' }}" type="radio"/>
                                                     {{ $key }}
                                                 </label>
                                             </div>
