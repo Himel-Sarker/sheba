@@ -7,6 +7,8 @@ use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Test;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+
 use PDF;
 
 
@@ -18,9 +20,9 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
-        $testlist=Service::paginate(12);
-        return view('backend.admin.service.index',compact('testlist'));
+    {
+        $testlist = Service::paginate(12);
+        return view('backend.admin.service.index', compact('testlist'));
     }
 
     /**
@@ -30,9 +32,9 @@ class ServiceController extends Controller
      */
     public function create()
     {
-         $categories=Test::all();
+        $categories = Test::all();
 
-         return view('backend.admin.service.create',compact('categories'));
+        return view('backend.admin.service.create', compact('categories'));
     }
 
     /**
@@ -43,22 +45,19 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request)
     {
-        $data=$request->all();
-       
+        $data = $request->all();
+
         try {
 
             Service::create([
-                'category_id'=>$data['test_categoy'],
-                'service_name'=>$data['service_name'],
-                'price'=>$data['price'],
+                'category_id' => $data['test_categoy'],
+                'service_name' => $data['service_name'],
+                'price' => $data['price'],
             ]);
             return redirect()->route('service.index')->withMessage('Successfully Added New Test !');
-            
-        
-          }catch (QueryException $ex) {
+        } catch (QueryException $ex) {
             return redirect()->back()->withInput()->withErrors($ex->getMessage());
-          }
-
+        }
     }
 
     /**
@@ -105,11 +104,20 @@ class ServiceController extends Controller
     {
         //
     }
-     
-    public function pdf(){
-        $list=Service::all();
-        $pdf = PDF::loadView('backend.admin.report.pricelistpdf',compact('list'));
-        return $pdf->download('pricelist.pdf');
 
+    public function pdf()
+    {
+        $list = Service::all();
+        $pdf = PDF::loadView('backend.admin.report.pricelistpdf', compact('list'));
+        return $pdf->download('pricelist.pdf');
+    }
+
+
+    public function search_date(Request $request)
+    {
+
+        $search = Service::where('created_at', 'like', '%' . $request->date . '%')->get();
+        // dd($search);
+        return view('backend.admin.service.search', compact('search'));
     }
 }

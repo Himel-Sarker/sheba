@@ -6,10 +6,10 @@
         body {
             font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial, Helvetica, sans-serif;
             margin: 0;
-            padding:0;
+            padding: 0;
             color: #333;
             background-color: #fff;
-          
+
         }
     </style>
     @endpush
@@ -48,61 +48,66 @@
                 </div>
 
 
-
+                <!-- Search Button of Date -->
 
                 <div class="card-body">
                     <table class="table table-striped table-sm table-hover table-light" id="table1">
 
 
-                        <p>
-                            <input type="text" id="mySearchText" placeholder="Search...">
-                            <button id="mySearchButton">Search</button>
-                        </p>
+                        <div class="hero__search__form">
 
 
-                        <thead class="text-center">
-                            <tr>
-                                <th>SL</th>
-                                <th>Test Department</th>
-                                <th> Test Name</th>
-                                <th> Price</th>
-                                <th> Created At</th>
-                                <th>Action</th>
+                            <form action="{{route('search')}}" method="get">
 
-                            </tr>
-                        </thead>
-
-                        <tbody class="text-center">
-                            @foreach($testlist as $test)
-                            <tr>
-                                <td>{{$loop->iteration}} </td>
-                                <td>{{$test->test_category->test_department}}</td>
-                                <td>{{$test->service_name}}</td>
-                                <td>{{$test->price}}</td>
-                                <td>{{ $test->created_at->format('d M Y') }}</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" href="">Edit</a>
-
-                                    <form action="" method="post" style="display:inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning btn-sm">Delete</button>
-
-                                    </form>
-
-                                </td>
-                            </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
-
-                    {{$testlist->links()}}
-
+                        </div>
+                        <input name="product" type="text" placeholder="What do yo u need?">
+                        <button type="submit" class="site-btn">my search</button>
+                        </form>
                 </div>
-            </div>
 
-        </section>
+                <thead class="text-center">
+                    <tr>
+                        <th>SL</th>
+                        <th>Test Department</th>
+                        <th> Test Name</th>
+                        <th> Price</th>
+                        <th> Created At</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="text-center">
+                    @foreach($testlist as $test)
+                    <tr>
+                        <td>{{$loop->iteration}} </td>
+                        <td>{{$test->test_category->test_department}}</td>
+                        <td>{{$test->service_name}}</td>
+                        <td>{{$test->price}}</td>
+                        <td>{{ $test->created_at->format('d M Y') }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="">Edit</a>
+
+                            <form action="" method="post" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-warning btn-sm">Delete</button>
+
+                            </form>
+
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+                </table>
+
+                {{$testlist->links()}}
+
+            </div>
+    </div>
+
+    </section>
     </div>
 
 

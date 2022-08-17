@@ -77,6 +77,8 @@ Route::prefix('/admin')->middleware(['auth'])->group(function(){
     Route::get('/our-service', [ServiceController::class,'index'])->name('service.index');
     Route::post('/service/add', [ServiceController::class,'store'])->name('service.store');
     Route::get('/service/pircelist-download', [ServiceController::class,'pdf'])->name('pricelist.pdf');
+    
+    Route::get('/search-test-date', [ServiceController::class, 'search_date'])->name('search');
 
 
 
