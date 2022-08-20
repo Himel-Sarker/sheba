@@ -96,13 +96,12 @@ class AppointmentController extends Controller
         //
     }
     public function listpdf(){
-
         $list=Appointment::all();
          $pdf=PDF::loadView('backend.admin.report.appointmentpdf',compact('list'));
          return $pdf->download('appointmentlist.pdf');
-
-
     }
+
+
 
     public function appointment_delete($id)
     {

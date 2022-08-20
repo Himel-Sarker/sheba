@@ -130,6 +130,9 @@
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror  mb-2" placeholder="Enter Your Email">
                             </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+                            </div>
 
                             <div class="form-group">
                                 <textarea name="details" class="form-control @error('details') is-invalid @enderror mb-2" placeholder="Describe Your Problem" rows="5"></textarea>

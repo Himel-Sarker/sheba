@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use function GuzzleHttp\Promise\all;
 use function PHPUnit\Framework\isNull;
+use PDF;
+
 
 class DoctorController extends Controller
 {
@@ -139,21 +141,24 @@ class DoctorController extends Controller
 
     public function index()
     {
-
         $doctors= User::where('role_id',2)->get();
-
         return view('backend.admin.doctors.index',compact('doctors'));
-
     }
-    public function show($id){
 
+    public function show($id){
         $doctor=User::with(['profile', 'role', 'department'])->findOrFail($id);
         return view('backend.admin.doctors.show',compact('doctor'));
     }
 
-    public function create(){
-        $departments = Department::all();
+    public function edit($id){
+        return view('backend.admin.doctors.edit',[
+            'departments' => Department::all(),
+            'rols'=>Role::all(),
+            'doctor'=>User::with(['profile', 'role', 'department'])->findOrFail($id)
+        ]);
+    }
 
+    public function create(){
         return view('backend.admin.doctors.create',[
             'departments' => Department::all(),
             'rols'=>Role::all(),
@@ -228,6 +233,69 @@ class DoctorController extends Controller
 
     }
 
+    public function update(Request $request, $id){
+        $this->validate($request,[
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'email'=>'required',
+            'department_id'=>'required|integer',
+            'image' => 'required'
+        ]);
+
+        $mainArray = [];
+        foreach ($request->tags as $key => $tag){
+            foreach ($request->day as $date){
+                $key = str_replace(['\'', '"'], "", $key);
+                if ($key == $date){
+                    $mainArray [$key]= [
+                        "times" =>  $tag,
+                    ];
+                }
+            }
+        }
+
+        try {
+
+            if ($request->hasFile('image')){
+                $image = $request->file('image');
+                $image_name = time().$image->getClientOriginalName();
+                $image->storeAs('public/doctors',$image_name);
+            }
+
+            $user_data_arr = ['first_name'=>$request->first_name,
+                                'last_name'=>$request->last_name,
+                                'email'=>$request->email,
+                                'role_id'=>2,
+                                'department_id'=>$request->department_id,
+                            ];
+            if (!empty($request->password)) {
+                $user_data_arr['password'] = Hash::make($request->password);
+            }
+            User::where('id',$id)->update($user_data_arr);
+
+            Profile::where('user_id',$id)->update([
+                'gender'=>$request->gender,
+                'phone'=>$request->phone,
+                'dob'=>$request->dob,
+                'join_date'=>$request->join_date,
+                'nid'=>$request->nid,
+                'degree'=>$request->degree,
+                'city'=>$request->city,
+                'state'=>$request->state,
+                'bio'=>$request->bio,
+                'address'=>$request->address,
+                'image'=>$image_name ?? " ",
+                'time_table' => json_encode($mainArray),
+            ]);
+
+
+            return back()->with('success','Data Save Success');
+        }catch (\Exception $exception){
+            return $exception->getMessage();
+        }
+
+    }
+
     public function destroy($id)
     {
         $user =  User::findOrFail($id);
@@ -238,6 +306,12 @@ class DoctorController extends Controller
         return back()->with('message','Delete Success');
     }
 
+
+    public function doctorlistpdf(){
+        $doctors= User::where('role_id', 2)->get();
+         $pdf=PDF::loadView('backend.admin.report.doctorlistpdf',compact('doctors'));
+         return $pdf->download('doctor_list.pdf');
+    }
 
 
 

@@ -52,6 +52,9 @@ class User extends Authenticatable
     public function profile(){
         return $this->hasOne(Profile::class,'user_id');
     }
+    public function patient(){
+        return $this->hasOne(Patient::class,'user_id');
+    }
 
     public function role(){
         return $this->belongsTo(Role::class,'role_id');

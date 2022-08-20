@@ -51,7 +51,7 @@
         <div class="row  justify-content-center">
             @foreach($doctor as $doctor)
             <div class="card mx-2 mb-4" style="width: 18rem;">
-                <img src="{{asset('storage/products/'.$doctor->profile->image)}}" class="card-img-top" alt="..." height="200px">
+                <img src="{{asset($doctor->profile->image ?? '/image/avatar.jpg')}}" class="card-img-top" alt="..." height="200px">
                 <div class="card-body">
                     <h5 class="card-title text-info text-center">{{$doctor->first_name.' '.$doctor->last_name}}</h5>
                     <h5 class="card-title text-primary "> Specialities: {{$doctor->department->name}}</h5>

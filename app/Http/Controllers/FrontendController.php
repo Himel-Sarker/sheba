@@ -10,6 +10,8 @@ use App\Models\Test;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDOException;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Patient;
 
 class FrontendController extends Controller
 {
@@ -64,11 +66,13 @@ class FrontendController extends Controller
    public function index(){
 
     $doctors=User::where('role_id',2)->latest()->take(4)->get();
+    $doctor_count=User::where('role_id',2)->count();
+
 
     $departments=Department::all();
     $test_department=Test::all();
 
-    return view('welcome',compact('doctors','departments','test_department'));
+    return view('welcome',compact('doctors','departments','test_department','doctor_count'));
    }
 
 
@@ -142,19 +146,15 @@ class FrontendController extends Controller
 
 
    public function makeAppoint(Request $request){
-
-
        $this->validate($request,[
           'name'=>'required|string',
            'phone'=>'required',
+           'password'=>'required',
            'email'=>'required|email',
-           'details'=>'required',
            'doctor_id' => 'required|integer'
        ]);
 
-
        $date = [];
-
        if(count($request->date) >= 1){
            foreach ($request->date as $key => $value){
                $data['day'] = $key;
@@ -166,20 +166,31 @@ class FrontendController extends Controller
 
 //       name	phone	email	details	day	time	doctor_id	status	message	created_at
 
-       Appointment::create([
-           'name' => $request->name,
-           'phone' => $request->phone,
-           'email' => $request->email,
-           'details' => $request->details,
-           'doctor_id' => $request->doctor_id,
-           'day' => $data['day'] ?? "",
-           'time' => $data['time'] ?? "",
-       ]);
+       $user = User::create([
+            'first_name'=>$request->name,
+            'last_name'=>" ",
+            'email'=>$request->email,
+            'password'=>Hash::make($request->password),
+            'role_id'=>3,
+        ]);
+
+        Patient::create([
+            'user_id'=>$user->id,
+            'phone'=>$request->phone,
+        ]);
+
+        Appointment::create([
+            'patient_id' => $user->id,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'details' => $request->details,
+            'doctor_id' => $request->doctor_id,
+            'day' => $data['day'] ?? "",
+            'time' => $data['time'] ?? "",
+        ]);
 
        return back()->with('message', 'Doctor Appointed Successfully Done.');
-
-
-
    }
 
 

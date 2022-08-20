@@ -1,5 +1,5 @@
 <x-backend.layouts.master>
-  <a href="{{route('doctors.index')}}" class="btn btn-primary btn-bg mb-3">Doctor List</a>
+  <a href="{{route('patients.index')}}" class="btn btn-primary btn-bg mb-3">Patient List</a>
 
 <div class="page-title">
         <div class="row">
@@ -20,27 +20,17 @@
 <div class="col text-center ">
 
 
-<h5 class="card-title"><b>Doctor name: </b>{{$doctor->first_name.' '.$doctor->last_name}}</h5>
-    <p> <b class="card-text">Department: </b>{{$doctor->department->name}}</p>
-    <p> <b class="card-text">Degree: </b>{{optional($doctor->profile)->degree}}</p>
+<h5 class="card-title"><b>Patient name: </b>{{$doctor->first_name.' '.$doctor->last_name}}</h5>
     <p> <b class="card-text">Email: </b>{{$doctor->email}}</p>
-    <p> <b class="card-text">Phone Number: </b>{{optional($doctor->profile)->phone}}</p>
-    <p> <b class="card-text">Joining Date: </b>{{optional($doctor->profile)->join_date}}</p>
-    <p> <b class="card-text">Address: </b>{{optional($doctor->profile)->address}}</p>
+    <p> <b class="card-text">Phone Number: </b>{{optional($doctor->patient)->phone}}</p>
+    <p> <b class="card-text">Address: </b>{{optional($doctor->patient)->address}}</p>
     <p> <b class="card-text">Gender: </b>
-        @if(optional($doctor->profile)->gender==2)
+        @if(optional($doctor->patient)->gender==2)
             Female
         @else
             Male
         @endif
     </p>
-    <a href="#" class="btn btn-info">Call Doctor</a>
-</div>
-
-<div class="col">
-<div class="card justify-self-center mt-3" style="width: 18rem;" >
-  <img src="{{asset($doctor->profile->image ?? '/image/avatar.jpg')}}" class="card-img-top" alt="...">
- 
 </div>
 
 </div>

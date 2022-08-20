@@ -1,3 +1,6 @@
+@php
+    use App\Models\Profile;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,19 +13,22 @@
      <table border="1">
          <thead>
           <th>SL</th>
-          <th>Patients Name</th>
+          <th>Doctors Name</th>
           <th>Phone</th>
           <th>Email</th>
           <th>Date</th>
          </thead>
          <tbody>
-             @foreach($list as $item)
+             @foreach($doctors as $item)
+             @php
+                 $profile = Profile::where('user_id', $item->id)->first();
+             @endphp
            <tr>
-           <td>{{$loop->iteration}}</td>
-           <td>{{$item->name}}</td>
-           <td>{{$item->phone}}</td>
-           <td>{{$item->email}}</td>
-           <td>{{$item->created_at}}</td>
+           <td>{{$loop->iteration ?? ''}}</td>
+           <td>{{$item->first_name.' '.$item->last_name}}</td>
+           <td>{{$profile->phone ?? ''}}</td>
+           <td>{{$item->email ?? ''}}</td>
+           <td>{{date('d M, Y', strtotime($item->created_at))}}</td>
            </tr>
            @endforeach
          </tbody>

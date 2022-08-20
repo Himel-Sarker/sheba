@@ -1,3 +1,7 @@
+@php
+    use App\Models\User;
+@endphp
+
 <x-backend.layouts.master>
 
 <div class="page-title">
@@ -11,13 +15,15 @@
                     <div class="card-body p-0">
                         <div class="d-flex flex-column">
                             <div class='px-3 py-3 d-flex justify-content-between'>
-                                <h3 class='card-title'>Patients</h3>
-                                <div class="card-right d-flex align-items-center">
-                                    <p>{{count($appointmentlist)}} </p>
-                                </div>
+                                <h3 class='card-title'>Profile</h3>
                             </div>
-                            <div class="chart-wrapper">
-                                <canvas id="canvas1" style="height:100px !important"></canvas>
+                            @php
+                                $patients = User::with(['patient'])->findOrFail(auth()->user()->id);
+                            @endphp
+                            <div class="chart-wrapper" style="height:100px !important; padding-left: 12px; color:white">
+                                Name: {{$patients->first_name.' '.$patients->last_name}} <br>
+                                Phone: {{$patients->patient->phone ?? ''}} <br>
+                                Email: {{$patients->email ?? ''}}
                             </div>
                         </div>
                     </div>
@@ -126,13 +132,17 @@
                                 <tbody>
                                     @foreach($todayappointments as $appointment)
                                     <tr>
-                                        <td>{{$appointment->patients_name}}</td>
-                                        <td>{{$appointment->email}}</td>
-                                        <td>{{$appointment->phone}}</td>
-                                        <td>{{$appointment->appointment_date}}</td>
+                                        <td>{{$appointment->name ?? ''}}</td>
+                                        <td>{{$appointment->email ?? ''}}</td>
+                                        <td>{{$appointment->phone ?? ''}}</td>
+                                        <td>{{date('d M, Y', strtotime($appointment->created_at)) ?? ''}}</td>
                                         <td>{{$appointment->user->first_name.' '.$appointment->user->last_name}}</td>
                                         <td>
-                                            <span class="badge bg-success">{{$appointment->status}}</span>
+                                            @if ($appointment->approval_status == 0)
+                                                <span class="badge bg-warning">Pending</span>
+                                            @elseif ($appointment->approval_status == 1)
+                                                <span class="badge bg-success">Approved</span>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

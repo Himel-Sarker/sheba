@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\DoctorsController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestController;
 use App\Models\Doctor;
@@ -58,10 +59,30 @@ Route::prefix('/admin')->middleware(['auth'])->group(function(){
     Route::get('/',[AdminController::class,'index'])->name('admin.dashboard');
     Route::get('/doctors', [DoctorController::class,'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class,'create'])->name('doctors.create');
+    Route::get('/doctors/edit/{id}', [DoctorController::class,'edit'])->name('doctors.edit');
+    Route::any('/doctors/update/{id}', [DoctorController::class,'update'])->name('doctors.update');
 
     Route::post('/doctors/store',[DoctorController::class,'store'])->name('doctors.store');
     Route::get('/doctors/{id}',[DoctorController::class,'show'])->name('doctors.show');
     Route::delete('/doctors/{id}',[DoctorController::class,'destroy'])->name('doctors.destroy');
+    Route::get('/doctorlistpdf/report', [DoctorController::class,'doctorlistpdf'])->name('doctor.doctorlistpdf');
+
+
+    Route::get('/patients', [PatientsController::class,'index'])->name('patients.index');
+    Route::get('/pescription_list/{id}', [PatientsController::class,'pescription_list'])->name('patients.pescription_list');
+    Route::get('/patients/create', [PatientsController::class,'create'])->name('patients.create');
+    Route::get('/patients/edit/{id}', [PatientsController::class,'edit'])->name('patients.edit');
+    Route::any('/patients/update/{id}', [PatientsController::class,'update'])->name('patients.update');
+
+    Route::post('/patients/store',[PatientsController::class,'store'])->name('patients.store');
+    Route::get('/patients/{id}',[PatientsController::class,'show'])->name('patients.show');
+    Route::delete('/patients/{id}',[PatientsController::class,'destroy'])->name('patients.destroy');
+
+    Route::get('/pescripton/create', [PatientsController::class,'pescripton_create'])->name('pescripton.create');
+    Route::post('/pescripton/store',[PatientsController::class,'pescripton_store'])->name('pescripton.store');
+    Route::get('/pescripton/edit/{id}', [PatientsController::class,'pescription_edit'])->name('pescripton.edit');
+    Route::delete('/pescripton/{id}',[PatientsController::class,'pescription_destroy'])->name('pescripton.destroy');
+    Route::get('/pescriptionlist/report/{id}', [PatientsController::class,'pescriptionpdf'])->name('pescription.pdf');
 
     Route::get('/appointments', [AppointmentController::class,'index'])->name('appointments');
     Route::get('/appointmentlist/report', [AppointmentController::class,'listpdf'])->name('appointment.pdf');
@@ -93,17 +114,14 @@ Route::prefix('/admin')->middleware(['auth'])->group(function(){
 
 });
 
+Route::prefix('/patient')->middleware(['auth'])->group(function(){
+    Route::get('/',[PatientsController::class,'dashboard'])->name('patient.dashboard');
+});
 
 Route::prefix('/doctor')->middleware(['auth'])->group(function(){
-
-    Route::get('/',[DoctorController::class,'index'])->name('doctor.dashboard');
-
+    // Route::get('/{id}',[DoctorController::class,'show'])->name('doctors.show');
 });
 
 
-Route::prefix('/patient')->middleware(['auth'])->group(function(){
 
-    Route::get('/',[PatientController::class,'index'])->name('patient.dashboard');
-
-});
 

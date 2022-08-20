@@ -1,3 +1,8 @@
+@php
+    use App\Models\User;
+    use App\Models\Patient;
+    use App\Models\Profile;
+@endphp
 <x-backend.layouts.master>
     @push('css')
         <style>
@@ -35,13 +40,13 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Doctors List</h3>
+                    <h3>Pescription List</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class='breadcrumb-header'>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{$dashboard_url}}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Doctors</li>
+                            <li class="breadcrumb-item active" aria-current="page">Pescription</li>
                         </ol>
                     </nav>
                 </div>
@@ -58,31 +63,51 @@
                 <div class="card-body">
                     <table id="example" class="table table-striped table-sm table-hover table-light" id="table1">
                         <thead class="text-center">
-                        <tr>
-                            <th class="text-center">SL</th>
-                            <th class="text-center">Dr Name</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Phone</th>
-                            <th class="text-center">Department</th>
-                            <th class="text-center">Action</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Date</th>
+                                @if ($role != 2)
+                                    <th class="text-center">Doctor Name</th>
+                                @endif
+                                @if ($role != 3)
+                                    <th class="text-center">Patient Name</th>
+                                @endif
+
+                                <th class="text-center">Disease</th>
+                                <th class="text-center">Symptoms</th>
+                                <th class="text-center">Procedure</th>
+                                <th class="text-center">Action</th>
+                            </tr>
                         </thead>
                         <tbody class="text-center">
 
-                        @foreach($doctors as $doctor)
+                        @foreach($pescriptions as $pescription)
+                            @php
+                                $patient = User::select('first_name', 'last_name')->find($pescription->patient_id);
+                                $doctor = User::select('first_name', 'last_name')->find($pescription->doctor_id);
+
+                                $patient_info = Patient::select('phone')->where('user_id', $pescription->patient_id)->first();
+                                $doctor_info = Profile::select('phone')->where('user_id', $pescription->doctor_id)->first();
+                            @endphp
                             <tr>
                                 <td>{{$loop->iteration}} </td>
-                                <td>{{$doctor->first_name.' '.$doctor->last_name}}</td>
-                                <td>{{$doctor->email}}</td>
-                                <td>{{ optional($doctor->profile)->phone}}</td>
-                                <td>{{$doctor->department->name}}</td>
+                                <td>{{date('d M, Y h:i A', strtotime($pescription->created_at))}}</td>
+                                @if ($role != 2)
+                                    <td>{{$doctor->first_name.' '.$doctor->last_name}} <br>{{$doctor_info->phone ?? ''}}</td>
+                                @endif
+                                @if ($role != 3)
+                                    <td>{{$patient->first_name.' '.$patient->last_name}} <br>{{$patient_info->phone ?? ''}}</td>
+                                @endif
+                                
+
+                                <td>{{$pescription->disease ?? ''}}</td>
+                                <td>{{$pescription->symptoms ?? ''}}</td>
+                                <td>{{$pescription->procedure ?? ''}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{route('doctors.show',['id'=>$doctor->id])}}">Show</a>
-                                    <a class="btn btn-success btn-sm" href="{{route('patients.pescription_list',['id'=>$doctor->id])}}">Pescription</a>
+                                    <a class="btn btn-info btn-sm" href="{{route('pescription.pdf',['id'=>$pescription->id])}}">Download</a>
                                     @if ($role == 1 || $role == 2)
-                                    <a class="btn btn-primary btn-sm" href="{{route('doctors.edit',['id'=>$doctor->id])}}">Edit</a>
-                                    <form action="{{route('doctors.destroy',$doctor->id)}}" method="post"
-                                          style="display:inline">
+                                    <a class="btn btn-primary btn-sm" href="{{route('pescripton.edit',['id'=>$pescription->id])}}">Edit</a>
+                                    <form action="{{route('pescripton.destroy',$pescription->id)}}" method="post" style="display:inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-warning btn-sm">Delete</button>
@@ -95,6 +120,12 @@
 
                         </tbody>
                     </table>
+
+                    @if ($role != 3)
+                    <div style="float: right; margin-top: 10px;">
+                        <a class="btn btn-info btn-sm" href="{{route('pescripton.create')}}">ADD Prescription</a>
+                    </div>
+                    @endif
                 </div>
             </div>
 

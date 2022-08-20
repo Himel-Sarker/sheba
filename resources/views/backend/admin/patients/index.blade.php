@@ -35,13 +35,13 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Doctors List</h3>
+                    <h3>Patients List</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class='breadcrumb-header'>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{$dashboard_url}}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Doctors</li>
+                            <li class="breadcrumb-item active" aria-current="page">Patients</li>
                         </ol>
                     </nav>
                 </div>
@@ -60,34 +60,39 @@
                         <thead class="text-center">
                         <tr>
                             <th class="text-center">SL</th>
-                            <th class="text-center">Dr Name</th>
+                            <th class="text-center">Patient Name</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Phone</th>
-                            <th class="text-center">Department</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody class="text-center">
 
-                        @foreach($doctors as $doctor)
+                        @foreach($patients as $patient)
+                            @if ($role == 3)
+                                @php
+                                    if ($user_id != $patient->id) {
+                                        continue;
+                                    }
+                                @endphp
+                            @endif
                             <tr>
                                 <td>{{$loop->iteration}} </td>
-                                <td>{{$doctor->first_name.' '.$doctor->last_name}}</td>
-                                <td>{{$doctor->email}}</td>
-                                <td>{{ optional($doctor->profile)->phone}}</td>
-                                <td>{{$doctor->department->name}}</td>
+                                <td>{{$patient->first_name.' '.$patient->last_name}}</td>
+                                <td>{{$patient->email}}</td>
+                                <td>{{ optional($patient->profile)->phone}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{route('doctors.show',['id'=>$doctor->id])}}">Show</a>
-                                    <a class="btn btn-success btn-sm" href="{{route('patients.pescription_list',['id'=>$doctor->id])}}">Pescription</a>
-                                    @if ($role == 1 || $role == 2)
-                                    <a class="btn btn-primary btn-sm" href="{{route('doctors.edit',['id'=>$doctor->id])}}">Edit</a>
-                                    <form action="{{route('doctors.destroy',$doctor->id)}}" method="post"
+                                    <a class="btn btn-info btn-sm" href="{{route('patients.show',['id'=>$patient->id])}}">Show</a>
+                                    <a class="btn btn-success btn-sm" href="{{route('patients.pescription_list',['id'=>$patient->id])}}">Pescription</a>
+                                    {{-- @if ($role == 1 || $role == 2) --}}
+                                    <a class="btn btn-primary btn-sm" href="{{route('patients.edit',['id'=>$patient->id])}}">Edit</a>
+                                    <form action="{{route('patients.destroy',$patient->id)}}" method="post"
                                           style="display:inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-warning btn-sm">Delete</button>
                                     </form>
-                                    @endif
+                                    {{-- @endif --}}
 
                                 </td>
                             </tr>

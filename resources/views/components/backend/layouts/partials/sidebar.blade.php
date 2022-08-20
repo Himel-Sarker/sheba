@@ -5,18 +5,32 @@
                 <img src="{{asset('image/logo.jpg')}}" width="200px" alt="">
             </a>
         </div>
+        @php
+            $role = Auth::user()->role_id;
+            $user_id = Auth::user()->id;
+        @endphp
+
         <div class="sidebar-menu">
             <ul class="menu mt-0">
-
-
                 <li class='sidebar-title'>Main Menu</li>
                 <li class="sidebar-item active ">
-
-                    <a href="{{route('dashboard')}}" class='sidebar-link'>
-                        <i data-feather="home" width="20"></i>
-                        <span>Dashboard</span>
-                    </a>
-
+                    @if ($role == 1)
+                        <a href="{{route('admin.dashboard')}}" class='sidebar-link'>
+                            <i data-feather="home" width="20"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    @elseif($role == 2)
+                        <a href="{{route('doctors.show', $user_id)}}" class='sidebar-link'>
+                            <i data-feather="home" width="20"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    @elseif($role == 3)
+                        <a href="{{route('patient.dashboard', $user_id)}}" class='sidebar-link'>
+                            <i data-feather="home" width="20"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    @endif
+                    
 
                 </li>
 
@@ -32,44 +46,61 @@
 
 
                     <ul class="submenu ">
-
                         <li>
                             <a href="{{route('doctors.index')}}">
                             <i data-feather="list" width="15"></i>
                             Doctors List</a>
                         </li>
 
-                        <li>
-                            <a href="{{route('doctors.create')}}">
-                            <i data-feather="plus-square" width="15"></i>
-                                Add Doctor
-                            </a>
-                        </li>
-
-
-
+                        @if ($role == 1 || $role == 2)
+                            <li>
+                                <a href="{{route('doctors.create')}}">
+                                <i data-feather="plus-square" width="15"></i>
+                                    Add Doctor
+                                </a>
+                            </li>
+                        @endif
+                        
                     </ul>
-
                 </li>
 
                 <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                    <i data-feather="user" width="15"></i>
+                        <span>Patients</span>
+                    </a>
 
+                    <ul class="submenu ">
+                        <li>
+                            <a href="{{route('patients.index')}}">
+                            <i data-feather="list" width="15"></i>
+                            Patients List</a>
+                        </li>
+
+                        @if ($role == 1 || $role == 2)
+                            <li>
+                                <a href="{{route('patients.create')}}">
+                                <i data-feather="plus-square" width="15"></i>
+                                    Add Patient
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i data-feather="file-plus" width="15"></i>
                         <span>Appointments</span>
                     </a>
 
-
                     <ul class="submenu ">
-
                         <li>
                             <a href="{{route('appointments')}}">
                             <i data-feather="list" width="15"></i>
                                 Appointment List
                             </a>
                         </li>
-
-
                     </ul>
 
                 </li>
@@ -91,11 +122,13 @@
                             </a>
                         </li>
 
+                        @if ($role == 1 || $role == 2)
                         <li>
                             <a href="{{route('departments.create')}}">
                             <i data-feather="plus-square" width="15"></i>
                                 Add New Department</a>
                         </li>
+                        @endif
 
                     </ul>
 
@@ -116,20 +149,14 @@
                                 Test Department List
                             </a>
                         </li>
-
+                        @if ($role == 1 || $role == 2)
                         <li>
                             <a href="{{route('test.create')}}">
                             <i data-feather="plus-square" width="15"></i>
                                 Add Test Department
                             </a>
                         </li>
-
-                        <li>
-                            <a href="form-element-select.html">Select</a>
-                        </li>
-
-
-
+                        @endif
                     </ul>
 
                 </li>
@@ -143,22 +170,20 @@
 
 
                     <ul class="submenu ">
-
                         <li>
-
                             <a href="{{route('service.index')}}">
                             <i data-feather="list" width="15"></i>
                            <span>Test List</span>
                         </a>
                         </li>
+                        @if ($role == 1 || $role == 2)
                         <li>
                             <a href="{{route('service.create')}}">
                             <i data-feather="plus-square" width="15"></i>
                                 Add New Test
                             </a>
                         </li>
-
-
+                        @endif
                     </ul>
 
                 </li>
@@ -173,21 +198,15 @@
 
 
                     <ul class="submenu ">
-
                         <li>
                             <a href="{{route('appointment.pdf')}}">Appointments List</a>
                         </li>
                         <li>
-                            <a href="{{route('service.create')}}">Todays Appointment</a>
-                        </li>
-                        <li>
-                            <a href="{{route('service.create')}}">Doctor List</a>
+                            <a href="{{route('doctor.doctorlistpdf')}}">Doctor List</a>
                         </li>
                         <li>
                             <a href="{{route('pricelist.pdf')}}">Price List</a>
                         </li>
-
-
                     </ul>
 
                 </li>

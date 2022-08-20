@@ -66,7 +66,7 @@
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box col bg-warning" data-aos="fade-up" data-aos-delay="100">
               <div class="icon"><i class="fas fa-phone"></i></div>
-              <h4 class="title text-black"><a href="#appoinment">Call For Appointment</a></h4>
+              <h4 class="title text-black"><a href="tel:+8801795114407">Call For Appointment</a></h4>
               <p class="description"></p>
             </div>
 
@@ -138,7 +138,7 @@
           <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
             <div class="count-box">
               <i class="fas fa-user-md"></i>
-              <span data-purecounter-start="0" data-purecounter-end="{{count($doctors)}}" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="{{$doctor_count ?? ''}}" data-purecounter-duration="1" class="purecounter"></span>
 
               <p><strong>Doctors</strong> of our diagnostic center is always ready to serve you</p>
               <a href="#">Find out more &raquo;</a>
@@ -241,15 +241,20 @@
           @csrf
 
           <div class="row">
-            <div class="col-md-4 form-group">
-
+            <div class="col-md-6 form-group">
               <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
             </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
+            <div class="col-md-6 form-group mt-3 mt-md-0">
               <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
             </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 form-group mt-3">
               <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" required>
+            </div>
+            <div class="col-md-6 form-group mt-3">
+              <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
             </div>
           </div>
 
@@ -267,7 +272,7 @@
               </select>
             </div>
             <div class="col-md-4 form-group mt-3">
-              <select name="doctor" id="doctor" class="form-select">
+              <select name="doctor_id" id="doctor" class="form-select">
                 <option>Select Doctor</option>
                 @foreach($doctors as $doctor)
                 <option value="{{$doctor->id}}">{{$doctor->first_name .' '.$doctor->last_name}}</option>
@@ -281,33 +286,32 @@
           </div>
 
           <table class="table">
-            @foreach(json_decode($doctor->profile->time_table) as $key => $value)
-            <tr>
-              <td>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label for="{{ $key.'radio' }}" class="btn d-block btn-secondary rounded-0" style="min-width: 250px">
-                      <input name="date" value="{{ $key }}" id="{{ $key.'radio' }}" type="radio" />
-                      {{ $key }}
-                    </label>
+            @if (count($doctors) != 0)
+              @foreach(json_decode($doctor->profile->time_table) as $key => $value)
+              <tr>
+                <td>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label for="{{ $key.'radio' }}" class="btn d-block btn-secondary rounded-0" style="min-width: 250px">
+                        <input name="date" value="{{ $key }}" id="{{ $key.'radio' }}" class="" type="radio" />
+                        {{ $key }}
+                      </label>
+                    </div>
+
+                    <select class="btn btn-outline-dark rounded-0 form-control select{{ $key }}" id="{{ $key }}" disabled name="date[{{ $key }}]time">
+                      <option selected disabled>Select Appoint Time</option>
+                      @foreach(json_decode($value->times[0]) as $val)
+                      <option value="{{ $val->value }}">{{ $val->value }}</option>
+                      @endforeach
+                    </select>
                   </div>
-                  {{--{{ json_decode($value->times[0]) }}--}}
-
-
-                  <select class="btn btn-outline-dark rounded-0 form-control select{{ $key }}" id="{{ $key }}" disabled name="date[{{ $key }}]time">
-                    <option selected disabled>Select Appoint Time</option>
-                    @foreach(json_decode($value->times[0]) as $val)
-                    <option value="{{ $val->value }}">{{ $val->value }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </td>
-            </tr>
-            @endforeach
+                </td>
+              </tr>
+              @endforeach
+            @endif
           </table>
 
-
-          <div class="text-center"><button class="btn btn-info mt-5" type="submit">Make an Appointment</button></div>
+          <div class="text-center"><button class="btn btn-info mt-5" id="submitButton" type="submit">Make an Appointment</button></div>
 
 
         </form>
@@ -627,6 +631,31 @@
     </section>
   </main>
   <!-- End Contact Section -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script>
+        document.querySelector("#submitButton").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.querySelector("#main_apoind_form").submit();
+        })
+
+
+        $('input:radio[name="date"]').change(function() {
+            let val = $(this).val();
+            let id =  "select"+val;
+            // var inputs = document.getElementsByTagName("select");
+            var inputs = $("select.btn-outline-dark");
+            for (var i = 0; i < inputs.length; i++) {
+                  if (inputs[i].id === val) {
+                      $("." + id).removeAttr('disabled');
+                  } else {
+                      $("#" + inputs[i].id).attr('disabled', true);
+                  }
+            }
+        });
+    </script>
 
 
 </x-frontend.layouts.master>

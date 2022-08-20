@@ -19,19 +19,29 @@
         </style>
     @endpush
 
+    @php
+        $role = Auth::user()->role_id;
+        $user_id = Auth::user()->id;
+        $dashboard_url = '';
+        if ($role == 1) { 
+            $dashboard_url = route('admin.dashboard');
+        }elseif ($role == 2) {
+            $dashboard_url = URL::to('/doctor/'.$user_id);
+        }else{
+            $dashboard_url = route('patient.dashboard');
+        }
+    @endphp
 
     <div class="main-content container-fluid">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Appointment List</h3>
-
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class='breadcrumb-header'>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Appointment</li>
+                            <li class="breadcrumb-item"><a href="{{$dashboard_url}}">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Appointment List</li>
                         </ol>
                     </nav>
@@ -55,7 +65,9 @@
                                 <th>Date</th>
                                 <th>Doctor Name</th>
                                 <th>Status</th>
+                                @if ($role == 1 || $role == 2)
                                 <th>Action</th>
+                                @endif
 
                             </tr>
                         </thead>
@@ -75,7 +87,7 @@
                                         <span class="badge bg-danger">Pending</span>
                                     @endif
                                 </td>
-                            
+                                @if ($role == 1 || $role == 2)
                                 <td>
                                     @if(!($appointment->approval_status))
                                     <form action="{{route('update.approval.status',['appointment'=>$appointment->id])}}" method="post" style="display:inline">
@@ -96,6 +108,7 @@
                                     </form>
 
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
 
